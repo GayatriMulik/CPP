@@ -1,27 +1,22 @@
 class Solution {
 public:
-    bool isValid(string s) {
-      std::unordered_map<char, char> bracketMap = {
-        {')', '('},
-        {'}', '{'},
-        {']', '['}
-    };
-
-    std::stack<char> stack; // Stack to store opening brackets
+    std::stack<char> stack;
 
     for (char ch : s) {
-        if (bracketMap.count(ch)) { // If the character is a closing bracket
-            // Check if the stack is non-empty and the top matches the corresponding opening bracket
-            if (!stack.empty() && stack.top() == bracketMap[ch]) {
-                stack.pop(); // Valid pair, pop the opening bracket
-            } else {
-                return false; // Invalid case
-            }
+        if (ch == '(' || ch == '{' || ch == '[') {
+            stack.push(ch);                              // Push opening brackets onto the stack
         } else {
-            stack.push(ch); // Push opening brackets onto the stack
+            if (stack.empty()) return false;                        // No matching opening bracket
+            if ((ch == ')' && stack.top() != '(') ||
+                (ch == '}' && stack.top() != '{') ||
+                (ch == ']' && stack.top() != '[')) {
+                return false; // Mismatched bracket
+            }
+            stack.pop(); // Valid match, remove opening bracket
         }
     }
 
-    return stack.empty(); // If the stack is empty, all brackets were matched
-  }
+    return stack.empty(); // If stack is empty, all brackets are valid
+}
+
 };
