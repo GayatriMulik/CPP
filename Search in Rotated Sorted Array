@@ -1,0 +1,33 @@
+// Used Binary search 
+
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int st = 0, end = nums.size() - 1;
+
+        while (st <= end) {
+            int mid = st + (end - st) / 2;
+
+            if (nums[mid] == target) { // Check if the mid element is the target
+                return mid;
+            }
+
+            // Determine which half is sorted
+            if (nums[st] <= nums[mid]) { // Left half is sorted
+                if (target >= nums[st] && target < nums[mid]) {
+                    end = mid - 1; // Target is in the left half
+                } else {
+                    st = mid + 1; // Target is in the right half
+                }
+            } else { // Right half is sorted
+                if (target > nums[mid] && target <= nums[end]) {
+                    st = mid + 1; // Target is in the right half
+                } else {
+                    end = mid - 1; // Target is in the left half
+                }
+            }
+        }
+
+        return -1; // Target not found
+    }
+};
